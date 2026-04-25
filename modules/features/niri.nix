@@ -2,7 +2,6 @@
   flake.nixosModules.niri = { pkgs, lib, ... }: {
     programs.niri = {
       enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
     };
   };
   perSystem = { pkgs, lib, self', ... }: {
@@ -23,7 +22,9 @@
           "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
           "Mod+Q".close-window = {};
           "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
-	  "Mod+E".spawn-sh = lib.getExe pkgs.nemo;        
+          "Mod+E".spawn-sh = lib.getExe pkgs.nemo;
+          "Mod+Page_Up".spawn-sh = "${lib.getExe pkgs.slurp} | ${lib.getExe pkgs.grim} -g - - | tee ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy";
+          
           # Foco entre janelas
           "Mod+Left".focus-column-left = {};
           "Mod+Right".focus-column-right = {};
