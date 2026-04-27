@@ -8,6 +8,7 @@
 
     environment.systemPackages = with pkgs; [
       papirus-icon-theme
+      alsa-utils
       git
       neovim
       wget
@@ -27,6 +28,7 @@
       slurp
       polkit_gnome
       gemini-cli
+      codex
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -133,6 +135,22 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+    };
+
+    systemd.user.services.fuxi-h3-fix = {
+      description = "Fix Fuxi-H3 stereo mixer on login";
+      after = [ "graphical-session.target" "pipewire.service" ];
+      wantedBy = [ "default.target" ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = pkgs.writeShellScript "fuxi-h3-fix" ''
+          card="$(${pkgs.alsa-utils}/bin/aplay -l | ${pkgs.gnugrep}/bin/grep 'Fuxi-H3' | ${pkgs.gnused}/bin/sed -E 's/^card ([0-9]+):.*/\1/' | ${pkgs.coreutils}/bin/head -n1)"
+          if [ -n "$card" ]; then
+            ${pkgs.alsa-utils}/bin/amixer -c "$card" set 'PCM',0 100%,100% unmute
+          fi
+        '';
+      };
     };
 
     users.users.arthas = {
