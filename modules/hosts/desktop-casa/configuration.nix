@@ -135,11 +135,27 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      wireplumber.extraConfig."50-fuxi-h3-soft-mixer" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [
+              {
+                "device.name" = "alsa_card.usb-XiiSound_Technology_Corporation_Fuxi-H3-00";
+              }
+            ];
+            actions = {
+              update-props = {
+                "api.alsa.soft-mixer" = true;
+              };
+            };
+          }
+        ];
+      };
     };
 
     systemd.user.services.fuxi-h3-fix = {
-      description = "Fix Fuxi-H3 stereo mixer on login";
-      after = [ "graphical-session.target" "pipewire.service" ];
+      description = "Keep Fuxi-H3 hardware mixer fully open";
+      after = [ "graphical-session.target" "pipewire.service" "wireplumber.service" ];
       wantedBy = [ "default.target" ];
 
       serviceConfig = {
