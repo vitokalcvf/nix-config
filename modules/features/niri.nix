@@ -16,7 +16,15 @@
           layout = "us";
           variant = "intl";
         };
-        layout.gaps = 5;
+        layout = {
+          gaps = 5;
+          focus-ring = {
+            width = 2;
+            active-color = "#ffffff";
+          };
+          border.off = _: {};
+        };
+        prefer-no-csd = true;
         binds = {
           # Apps
           "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;

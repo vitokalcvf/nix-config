@@ -22,6 +22,7 @@
       polkit_gnome
       gemini-cli
       codex
+      tmux
     ];
   };
 }

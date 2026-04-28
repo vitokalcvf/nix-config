@@ -1,0 +1,2 @@
+# Abre o shell diretamente dentro da sessao principal do tmux.
+launch bash -lc 'tmux attach -t main || tmux new -s main'
