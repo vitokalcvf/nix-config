@@ -24,6 +24,20 @@
           border.off = _: {};
         };
         prefer-no-csd = true;
+        blur = {
+          passes = 2;
+          offset = 1.5;
+          noise = 0.01;
+          saturation = 1.0;
+        };
+        window-rules = [
+          {
+            matches = [ { app-id = ".*"; } ];
+            opacity = 0.85;
+            draw-border-with-background = false;
+            background-effect.blur = true;
+          }
+        ];
         binds = {
           # Apps
           "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
