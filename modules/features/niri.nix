@@ -33,7 +33,7 @@
         window-rules = [
           {
             matches = [ { app-id = ".*"; } ];
-            opacity = 0.85;
+            opacity = 0.87;
             geometry-corner-radius = 8;
             clip-to-geometry = true;
             draw-border-with-background = false;
@@ -46,6 +46,17 @@
                 blur = true;
               };
             };
+          }
+          {
+            matches = [
+              { app-id = "brave-browser"; }
+              { app-id = "Brave-browser"; }
+              { app-id = "firefox"; }
+              { app-id = "chromium-browser"; }
+              { app-id = "chromium"; }
+              { app-id = "google-chrome"; }
+            ];
+            opacity = 1.0;
           }
         ];
         binds = {
