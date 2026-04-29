@@ -16,6 +16,7 @@
       nemo
       ffmpegthumbnailer
       evince
+      file-roller
       wl-clipboard
       grim
       slurp
