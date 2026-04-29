@@ -24,6 +24,7 @@
       gemini-cli
       codex
       tmux
+      just
     ];
   };
 }

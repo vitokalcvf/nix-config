@@ -8,6 +8,7 @@
   perSystem = { pkgs, lib, self', ... }: {
     packages.myNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;
+      outOfStoreConfig = "/home/arthas/.config/noctalia";
       settings =
         (builtins.fromJSON
             (builtins.readFile ../dotfiles/noctalia/noctalia.json)).settings;
