@@ -3,7 +3,6 @@
     programs.niri = {
       enable = true;
     };
-    systemd.user.services.niri.restartIfChanged = false;
   };
   perSystem = { pkgs, lib, self', ... }: {
     packages = let
@@ -66,7 +65,9 @@
           "Mod+Q".close-window = {};
           "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
           "Mod+E".spawn-sh = lib.getExe pkgs.nautilus;
-          "Mod+Page_Up".spawn-sh = "${lib.getExe pkgs.slurp} | ${lib.getExe pkgs.grim} -g - - | tee ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png | wl-copy";
+          "Mod+P".screenshot = {};
+          "Mod+Shift+P".screenshot-screen = {};
+          "Mod+Ctrl+P".screenshot-window = {};
           
           # Foco entre janelas
           "Mod+Left".focus-column-left = {};
@@ -79,6 +80,13 @@
           "Mod+Shift+Right".move-column-right = {};
           "Mod+Shift+Up".move-window-up = {};
           "Mod+Shift+Down".move-window-down = {};
+
+          # Colunas, pilhas e abas
+          "Mod+W".toggle-column-tabbed-display = {};
+          "Mod+A".consume-window-into-column = {};
+          "Mod+Shift+A".expel-window-from-column = {};
+          "Mod+R".switch-preset-column-width = {};
+          "Mod+Shift+R".switch-preset-column-width-back = {};
         
           # Workspaces
           "Mod+1".focus-workspace = 1;
@@ -86,6 +94,9 @@
           "Mod+3".focus-workspace = 3;
           "Mod+4".focus-workspace = 4;
           "Mod+5".focus-workspace = 5;
+          "Mod+Page_Down".focus-workspace-down = {};
+          "Mod+Page_Up".focus-workspace-up = {};
+          "Mod+Tab".focus-workspace-previous = {};
         
           # Mover janela para workspace
           "Mod+Shift+1".move-column-to-workspace = 1;
@@ -93,10 +104,17 @@
           "Mod+Shift+3".move-column-to-workspace = 3;
           "Mod+Shift+4".move-column-to-workspace = 4;
           "Mod+Shift+5".move-column-to-workspace = 5;
+          "Mod+Shift+Page_Down".move-window-to-workspace-down = {};
+          "Mod+Shift+Page_Up".move-window-to-workspace-up = {};
         
           # Tamanho das janelas
           "Mod+F".maximize-column = {};
           "Mod+Shift+F".fullscreen-window = {};
+          "Mod+Ctrl+F".maximize-window-to-edges = {};
+
+          # Floating e overview
+          "Mod+Space".toggle-overview = {};
+          "Mod+Shift+Space".toggle-window-floating = {};
         
           # Volume
           "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
