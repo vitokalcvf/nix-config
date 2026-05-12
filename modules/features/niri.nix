@@ -75,6 +75,14 @@
           "Mod+Right".focus-column-right = {};
           "Mod+Up".focus-window-up = {};
           "Mod+Down".focus-window-down = {};
+
+          # Foco entre monitores
+          "Mod+Alt+Left".focus-monitor-left = {};
+          "Mod+Alt+Right".focus-monitor-right = {};
+
+          # Mover janela entre monitores
+          "Mod+Alt+Shift+Left".move-window-to-monitor-left = {};
+          "Mod+Alt+Shift+Right".move-window-to-monitor-right = {};
         
           # Mover janelas
           "Mod+Shift+Left".move-column-left = {};
