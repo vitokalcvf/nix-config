@@ -48,6 +48,8 @@
 
     services.gnome.gnome-keyring.enable = true;
     security.polkit.enable = true;
+    services.udisks2.enable = true;
+    services.gvfs.enable = true;
     xdg.portal = {
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gnome ];

@@ -58,6 +58,15 @@
             ];
             opacity = 1.0;
           }
+          {
+            matches = [
+              { app-id = "discord"; }
+              { app-id = "Discord"; }
+            ];
+            opacity = 1.0;
+            background-effect.blur = false;
+            popups.background-effect.blur = false;
+          }
         ];
         binds = {
           # Apps
@@ -96,6 +105,9 @@
           "Mod+Shift+A".expel-window-from-column = {};
           "Mod+R".switch-preset-column-width = {};
           "Mod+Shift+R".switch-preset-column-width-back = {};
+          "Mod+V".switch-preset-window-height = {};
+          "Mod+Shift+V".switch-preset-window-height-back = {};
+          "Mod+Ctrl+V".reset-window-height = {};
         
           # Workspaces
           "Mod+1".focus-workspace = 1;

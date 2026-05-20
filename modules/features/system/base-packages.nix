@@ -7,11 +7,13 @@
       ripgrep
       fd
       fzf
+      yazi
       lazygit
       gcc
       gnumake
       unzip
       curl
+      python3
       nodejs
       stylua
       lua-language-server
@@ -41,6 +43,7 @@
       just
       calibre
       fastfetch
+      wdisplays
     ];
   };
 }
