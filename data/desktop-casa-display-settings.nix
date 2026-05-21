@@ -21,7 +21,7 @@
         };
       };
       scale = 1.0;
-      transform = "90";
+      transform = "normal";
     };
   };
 }

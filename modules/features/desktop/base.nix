@@ -2,8 +2,8 @@
   flake.nixosModules.desktopBase = { config, lib, pkgs, ... }: {
     services.greetd = {
       enable = true;
-      useTextGreeter = true;
-      settings.default_session = {
+      useTextGreeter = lib.mkDefault (!config.programs.dank-material-shell.greeter.enable);
+      settings.default_session = lib.mkIf (!config.programs.dank-material-shell.greeter.enable) {
         user = "greeter";
         command = lib.escapeShellArgs [
           "${pkgs.tuigreet}/bin/tuigreet"

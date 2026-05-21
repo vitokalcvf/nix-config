@@ -8,7 +8,10 @@
     packages = let
       baseSettings = {
         spawn-at-startup = [
-          (lib.getExe self'.packages.myNoctalia)
+          [
+            (lib.getExe self'.packages.myDms)
+            "run"
+          ]
         ];
         xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
         input.keyboard.xkb = {
@@ -72,9 +75,9 @@
           # Apps
           "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
           "Mod+Q".close-window = {};
-          "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
+          "Mod+S".spawn-sh = "${lib.getExe self'.packages.myDms} ipc call spotlight toggle";
           "Mod+E".spawn-sh = lib.getExe pkgs.nautilus;
-          "Mod+L".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call lockScreen lock";
+          "Mod+L".spawn-sh = "${lib.getExe self'.packages.myDms} ipc call lock lock";
           "Mod+P".screenshot = {};
           "Mod+Shift+P".screenshot-screen = {};
           "Mod+Ctrl+P".screenshot-window = {};
@@ -144,6 +147,8 @@
         };
       };
     in {
+      myDms = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
       myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
         settings = baseSettings;

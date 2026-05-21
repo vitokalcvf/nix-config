@@ -3,6 +3,7 @@
     imports = [
       self.nixosModules.desktopCasaHardware
       self.nixosModules.niri
+      self.nixosModules.dms
       self.nixosModules.home
       self.nixosModules.desktopBasePackages
       self.nixosModules.desktopBase

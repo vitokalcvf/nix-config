@@ -44,6 +44,7 @@
       calibre
       fastfetch
       wdisplays
+      btop
     ];
   };
 }
