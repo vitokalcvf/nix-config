@@ -15,6 +15,7 @@
       curl
       python3
       nodejs
+      dotnet-sdk
       stylua
       lua-language-server
       nil
@@ -45,6 +46,10 @@
       fastfetch
       wdisplays
       btop
+      winboat
+      docker
+      jetbrains.rider
+      libreoffice
     ];
   };
 }

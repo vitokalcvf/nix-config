@@ -11,6 +11,8 @@
           [
             (lib.getExe self'.packages.myDms)
             "run"
+            "/home/arthas/.local/bin/niri-sidebar"
+            "listen"
           ]
         ];
         xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
@@ -69,6 +71,11 @@
             opacity = 1.0;
             background-effect.blur = false;
             popups.background-effect.blur = false;
+          }
+          {
+            matches = [ { is-floating = true; } ];
+            min-width = 100;
+            min-height = 100;
           }
         ];
         binds = {
@@ -139,6 +146,12 @@
           # Floating e overview
           "Mod+Space".toggle-overview = {};
           "Mod+Shift+Space".toggle-window-floating = {};
+
+          # Sidebar
+          "Mod+B".spawn-sh = "/home/arthas/.local/bin/niri-sidebar toggle-window";
+          "Mod+Shift+B".spawn-sh = "/home/arthas/.local/bin/niri-sidebar toggle-visibility";
+          "Mod+Ctrl+B".spawn-sh = "/home/arthas/.local/bin/niri-sidebar flip";
+          "Mod+Alt+B".spawn-sh = "/home/arthas/.local/bin/niri-sidebar reorder";
         
           # Volume
           "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
