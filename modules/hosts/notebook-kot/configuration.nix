@@ -15,15 +15,18 @@
       ];
 
       my.host = {
-        name = "kot247";
-        userName = "arthurb";
-        homeDirectory = "/home/arthurb";
+        name = "kot12";
+        userName = "vitor";
+        homeDirectory = "/home/vitor";
         keyboard = {
           consoleKeyMap = "br-abnt2";
           layout = "br";
           variant = "";
         };
       };
+
+      # Senha inicial temporaria. Troque no primeiro login com `passwd`.
+      users.users.vitor.initialPassword = "vitor";
 
       system.stateVersion = "26.05";
     };

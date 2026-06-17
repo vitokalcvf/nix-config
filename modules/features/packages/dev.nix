@@ -24,6 +24,7 @@
           vscode
           gemini-cli
           codex
+          claude-code
           docker
           jetbrains.rider
         ];

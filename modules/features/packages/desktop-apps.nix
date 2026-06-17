@@ -13,7 +13,7 @@
       config = lib.mkIf config.my.packages.desktopApps.enable {
         environment.systemPackages = with pkgs; [
           papirus-icon-theme
-          brave
+          google-chrome
           kitty
           nemo
           nautilus
