@@ -2,11 +2,6 @@
 {
   imports = [
     inputs.flake-parts.flakeModules.modules
-    ./features/audio
-    ./features/desktop
-    ./features/packages
-    ./features/system
-    ./profiles
   ];
 
   options.flake.homeModules = lib.mkOption {

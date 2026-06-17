@@ -1,10 +1,13 @@
-{ ... }: {
-  flake.homeModules.kitty = { ... }: {
-    home.file.".config/kitty/tmux-main.session".source = ../../dotfiles/kitty/tmux-main.session;
+{ ... }:
+{
+  flake.homeModules.kitty =
+    { ... }:
+    {
+      home.file.".config/kitty/tmux-main.session".source = ../../dotfiles/kitty/tmux-main.session;
 
-    programs.kitty = {
-      enable = true;
-      extraConfig = builtins.readFile ../../dotfiles/kitty/kitty.conf;
+      programs.kitty = {
+        enable = true;
+        extraConfig = builtins.readFile ../../dotfiles/kitty/kitty.conf;
+      };
     };
-  };
 }

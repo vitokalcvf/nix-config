@@ -1,5 +1,12 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.home = { config, pkgs, lib, ... }:
+{ self, inputs, ... }:
+{
+  flake.nixosModules.home =
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     let
       userName = config.my.host.userName;
     in

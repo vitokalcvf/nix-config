@@ -12,7 +12,7 @@
 
         userName = lib.mkOption {
           type = lib.types.str;
-          default = "arthas";
+          default = "vitor";
           description = "Primary local user for host-specific paths and Home Manager config.";
         };
 
@@ -24,7 +24,7 @@
 
         homeDirectory = lib.mkOption {
           type = lib.types.str;
-          default = "/home/arthas";
+          default = "/home/vitor";
           description = "Home directory for the primary local user.";
         };
 
