@@ -25,6 +25,8 @@
         };
       };
 
+      my.desktop.niri.displaySettings = import ../../../data/desktop-casa-display-settings.nix;
+
       system.stateVersion = "25.11";
     };
 }
