@@ -21,7 +21,7 @@
         keyboard = {
           consoleKeyMap = "br-abnt2";
           layout = "br";
-          variant = "nodeadkeys";
+          variant = "";
         };
       };
 
