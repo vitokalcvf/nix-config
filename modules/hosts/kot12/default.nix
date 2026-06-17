@@ -1,9 +1,9 @@
 { self, inputs, ... }:
 {
-  flake.nixosConfigurations."notebook-kot" = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations."kot12" = inputs.nixpkgs.lib.nixosSystem {
     specialArgs = { inherit inputs self; };
     modules = [
-      self.nixosModules.notebookKotConfiguration
+      self.nixosModules.kot12Configuration
       inputs.home-manager.nixosModules.home-manager
     ];
   };

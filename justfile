@@ -1,6 +1,6 @@
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 
-host := "notebook-kot"
+host := "kot12"
 
 # Lista os comandos disponiveis.
 default:

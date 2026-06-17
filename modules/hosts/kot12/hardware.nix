@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.notebookKotHardware =
+  flake.nixosModules.kot12Hardware =
     {
       config,
       lib,

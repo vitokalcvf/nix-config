@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.notebookKotConfiguration =
+  flake.nixosModules.kot12Configuration =
     {
       config,
       pkgs,
@@ -9,8 +9,8 @@
     }:
     {
       imports = [
-        self.nixosModules.notebookKotHardware
-        self.nixosModules.workLaptopProfile
+        self.nixosModules.kot12Hardware
+        self.nixosModules.workProfile
         self.nixosModules.systemdBoot
       ];
 
