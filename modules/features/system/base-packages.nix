@@ -8,6 +8,7 @@
         self.nixosModules.devPackages
         self.nixosModules.desktopAppPackages
         self.nixosModules.workPackages
+        self.nixosModules.notesPackages
         self.nixosModules.personalPackages
         self.nixosModules.mediaPackages
       ];
@@ -17,6 +18,7 @@
         dev.enable = true;
         desktopApps.enable = true;
         work.enable = true;
+        notes.enable = true;
         personal.enable = true;
         media.enable = true;
       };

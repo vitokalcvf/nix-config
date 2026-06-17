@@ -8,7 +8,13 @@
         self.nixosModules.niri
         self.nixosModules.dms
         self.nixosModules.home
-        self.nixosModules.desktopBasePackages
+        self.nixosModules.corePackages
+        self.nixosModules.devPackages
+        self.nixosModules.desktopAppPackages
+        self.nixosModules.workPackages
+        self.nixosModules.notesPackages
+        self.nixosModules.personalPackages
+        self.nixosModules.mediaPackages
         self.nixosModules.desktopBase
         self.nixosModules.pipewireAudio
         self.nixosModules.fuxiH3AudioFix

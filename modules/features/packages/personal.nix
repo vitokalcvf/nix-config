@@ -12,7 +12,6 @@
 
       config = lib.mkIf config.my.packages.personal.enable {
         environment.systemPackages = with pkgs; [
-          obsidian
           discord
           spotify
           calibre
