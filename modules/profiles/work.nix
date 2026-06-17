@@ -4,7 +4,7 @@
     { ... }:
     {
       imports = [
-        self.nixosModules.niriWorkstationProfile
+        self.nixosModules.niriDesktopProfile
       ];
 
       my.packages = {

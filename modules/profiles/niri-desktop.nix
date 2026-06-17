@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.niriWorkstationProfile =
+  flake.nixosModules.niriDesktopProfile =
     { ... }:
     {
       imports = [
