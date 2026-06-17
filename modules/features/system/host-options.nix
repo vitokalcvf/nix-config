@@ -18,7 +18,7 @@
 
         userDescription = lib.mkOption {
           type = lib.types.str;
-          default = "Arthur Barbosa Azevedo";
+          default = "Vitor Lima";
           description = "Full name for the primary local user.";
         };
 

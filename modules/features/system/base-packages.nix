@@ -9,7 +9,6 @@
         self.nixosModules.desktopAppPackages
         self.nixosModules.workPackages
         self.nixosModules.notesPackages
-        self.nixosModules.personalPackages
         self.nixosModules.mediaPackages
       ];
 
@@ -19,7 +18,6 @@
         desktopApps.enable = true;
         work.enable = true;
         notes.enable = true;
-        personal.enable = true;
         media.enable = true;
       };
     };

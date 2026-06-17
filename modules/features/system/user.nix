@@ -21,5 +21,4 @@ let
 in
 {
   flake.nixosModules.user = userModule;
-  flake.nixosModules.desktopCasaUser = userModule;
 }

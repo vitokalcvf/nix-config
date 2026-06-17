@@ -91,7 +91,7 @@
         # Define a user account. Don't forget to set a password with ‘passwd’.
         users.users.arthas = {
             isNormalUser = true;
-            description = "Arthur Barbosa Azevedo";
+            description = "Vitor Lima";
             extraGroups = [ "networkmanager" "wheel" ];
             packages = with pkgs; [
             kdePackages.kate

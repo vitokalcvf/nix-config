@@ -15,5 +15,4 @@ let
 in
 {
   flake.nixosModules.networkManager = networkModule;
-  flake.nixosModules.desktopCasaNetwork = networkModule;
 }

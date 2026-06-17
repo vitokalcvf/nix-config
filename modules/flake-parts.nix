@@ -4,7 +4,6 @@
     inputs.flake-parts.flakeModules.modules
     ./features/audio
     ./features/desktop
-    ./features/hardware
     ./features/packages
     ./features/system
     ./profiles

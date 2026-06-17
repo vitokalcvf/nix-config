@@ -27,5 +27,4 @@ let
 in
 {
   flake.nixosModules.locale = localeModule;
-  flake.nixosModules.desktopCasaLocale = localeModule;
 }

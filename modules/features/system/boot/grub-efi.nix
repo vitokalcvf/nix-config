@@ -17,5 +17,4 @@ let
 in
 {
   flake.nixosModules.grubEfiBoot = grubEfiModule;
-  flake.nixosModules.desktopCasaBoot = grubEfiModule;
 }
