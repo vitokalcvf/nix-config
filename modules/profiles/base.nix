@@ -8,6 +8,7 @@
         self.nixosModules.user
         self.nixosModules.locale
         self.nixosModules.networkManager
+        self.nixosModules.autoUpgrade
       ];
 
       nix.settings.experimental-features = [
