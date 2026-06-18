@@ -17,7 +17,7 @@
         };
 
         matchBlocks."ti.intra.kot.com.br" = {
-          user = "vitor";
+          user = "root";
           identityFile = "~/.ssh/id_ed25519";
           identitiesOnly = true;
         };
