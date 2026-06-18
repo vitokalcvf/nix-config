@@ -15,6 +15,12 @@
           # So usa a chave declarada acima, sem oferecer outras do agent.
           identitiesOnly = true;
         };
+
+        matchBlocks."ti.intra.kot.com.br" = {
+          user = "vitor";
+          identityFile = "~/.ssh/id_ed25519";
+          identitiesOnly = true;
+        };
       };
     };
 }
