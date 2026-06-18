@@ -3,12 +3,20 @@ let
   autoUpgradeModule =
     { config, ... }:
     {
+      # O servico de upgrade roda como root, mas o flake mora no home do
+      # usuario. Sem isto o git/libgit2 do Nix recusa o repo por nao pertencer
+      # ao root (erro GIT_EOWNER / "not owned by current user").
+      environment.etc."gitconfig".text = ''
+        [safe]
+        	directory = ${config.my.host.homeDirectory}/nix-config
+      '';
+
       system.autoUpgrade = {
         enable = true;
 
         # Reconstroi a partir deste flake. O hostname (config.my.host.name)
         # seleciona a nixosConfiguration correspondente.
-        flake = "/home/vitor/nix-config#${config.my.host.name}";
+        flake = "${config.my.host.homeDirectory}/nix-config#${config.my.host.name}";
 
         # Atualiza o input nixpkgs em memoria (puxa o nixos-unstable mais novo)
         # sem reescrever/commitar o flake.lock. Para fixar versoes, rode
