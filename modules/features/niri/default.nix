@@ -28,6 +28,12 @@
           layout = config.my.host.keyboard.layout;
           variant = config.my.host.keyboard.variant;
         };
+        input.touchpad = {
+          # Habilita tap-to-click (toque na superficie = clique).
+          tap = _: { };
+          # Inverte a direcao da rolagem (conteudo acompanha os dedos).
+          natural-scroll = _: { };
+        };
         layout = {
           gaps = 18;
           focus-ring = {
