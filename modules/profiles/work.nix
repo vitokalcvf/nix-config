@@ -13,7 +13,6 @@
         desktopApps.enable = true;
         work.enable = true;
         notes.enable = true;
-        media.enable = false;
       };
     };
 }

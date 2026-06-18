@@ -25,6 +25,7 @@
           polkit_gnome
           wdisplays
           winboat
+          zapzap
         ];
       };
     };

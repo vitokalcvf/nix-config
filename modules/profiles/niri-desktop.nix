@@ -13,7 +13,6 @@
         self.nixosModules.desktopAppPackages
         self.nixosModules.workPackages
         self.nixosModules.notesPackages
-        self.nixosModules.mediaPackages
         self.nixosModules.desktopBase
         self.nixosModules.pipewireAudio
         self.nixosModules.fuxiH3AudioFix

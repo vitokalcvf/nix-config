@@ -43,5 +43,18 @@
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+      # Quirk do teclado interno (IdeaPad Slim 3 15ARP10, AMD): apos suspender,
+      # o controlador i8042 falha ao reativar o teclado PS/2
+      # ("atkbd serio0: Failed to enable keyboard on isa0060/serio0") e o teclado
+      # interno para de responder. Recarregar o i8042 com reset=1 no resume
+      # reinicializa o controlador e devolve o teclado. O ideapad_laptop depende
+      # do i8042, entao precisa sair antes e voltar depois.
+      powerManagement.resumeCommands = ''
+        ${pkgs.kmod}/bin/modprobe -r ideapad_laptop || true
+        ${pkgs.kmod}/bin/rmmod i8042 || true
+        ${pkgs.kmod}/bin/modprobe i8042 reset=1 || true
+        ${pkgs.kmod}/bin/modprobe ideapad_laptop || true
+      '';
     };
 }
