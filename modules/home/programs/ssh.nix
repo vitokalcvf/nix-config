@@ -18,6 +18,11 @@
           identityFile = "~/.ssh/id_ed25519";
           identitiesOnly = true;
         };
+
+        matchBlocks."monitoring.kot.com.br" = {
+          user = "root";
+          identityFile = "~/.ssh/id_ed25519";
+          identitiesOnly = true;
       };
     };
 }
