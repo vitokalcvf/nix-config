@@ -24,6 +24,10 @@
 
             home.stateVersion = "25.11";
 
+            home.activation.createProjetos = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+              run mkdir -p "$HOME/projetos"
+            '';
+
             # Cria por padrao a pasta kot-toolbox na raiz da home do usuario.
             home.activation.createKotToolbox = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
               run mkdir -p "$HOME/kot-toolbox"
