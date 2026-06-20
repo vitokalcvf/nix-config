@@ -9,17 +9,17 @@
         # opt-in. Desativamos para manter o config enxuto e explicito.
         enableDefaultConfig = false;
 
-        matchBlocks."github.com" = {
-          user = "git";
-          identityFile = "~/.ssh/id_ed25519";
+        settings."github.com" = {
+          User = "git";
+          IdentityFile = "~/.ssh/id_ed25519";
           # So usa a chave declarada acima, sem oferecer outras do agent.
-          identitiesOnly = true;
+          IdentitiesOnly = true;
         };
 
-        matchBlocks."ti.intra.kot.com.br" = {
-          user = "root";
-          identityFile = "~/.ssh/id_ed25519";
-          identitiesOnly = true;
+        settings."ti.intra.kot.com.br" = {
+          User = "root";
+          IdentityFile = "~/.ssh/id_ed25519";
+          IdentitiesOnly = true;
         };
       };
     };
