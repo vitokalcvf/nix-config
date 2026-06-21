@@ -16,17 +16,16 @@
           gnumake
           python3
           nodejs
+          pnpm
+          supabase-cli
           dotnet-sdk
           stylua
           lua-language-server
           nil
           nixfmt
           vscode
-          gemini-cli
-          codex
           claude-code
           docker
-          jetbrains.rider
         ];
       };
     };
