@@ -12,7 +12,18 @@
         settings."github.com" = {
           User = "git";
           IdentityFile = "~/.ssh/id_ed25519";
-          # So usa a chave declarada acima, sem oferecer outras do agent.
+          IdentitiesOnly = true;
+        };
+
+        settings."monitoring.kot.com.br" = {
+          User = "root";
+          IdentityFile = "~/.ssh/id_ed25519";
+          IdentitiesOnly = true;
+        };
+
+        settings."nixos.intra.kot.com.br" = {
+          User = "admin";
+          IdentityFile = "~/.ssh/id_ed25519";
           IdentitiesOnly = true;
         };
 
