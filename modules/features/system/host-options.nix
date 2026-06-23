@@ -1,7 +1,6 @@
-{ self, inputs, ... }:
-{
+_: {
   flake.nixosModules.hostOptions =
-    { lib, ... }:
+    { lib, config, ... }:
     {
       options.my.host = {
         name = lib.mkOption {
@@ -24,7 +23,8 @@
 
         homeDirectory = lib.mkOption {
           type = lib.types.str;
-          default = "/home/vitor";
+          default = "/home/${config.my.host.userName}";
+          defaultText = lib.literalExpression ''"/home/''${config.my.host.userName}"'';
           description = "Home directory for the primary local user.";
         };
 

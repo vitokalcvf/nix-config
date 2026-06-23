@@ -1,5 +1,4 @@
-{ self, inputs, ... }:
-{
+_: {
   flake.nixosModules.fuxiH3AudioFix =
     { pkgs, ... }:
     {

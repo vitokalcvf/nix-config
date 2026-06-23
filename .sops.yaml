@@ -1,0 +1,18 @@
+# Configuracao do sops: define quem (quais chaves age) pode descriptografar
+# os secrets. Depois de editar este arquivo, rode `sops updatekeys` em cada
+# secret existente para re-cifra-lo com os novos recipients.
+#
+# SETUP (uma vez por maquina) — veja a secao "Secrets" no README:
+#   1. mkdir -p ~/.config/sops/age
+#   2. age-keygen -o ~/.config/sops/age/keys.txt   # imprime a chave publica
+#   3. copie a public key (age1...) abaixo, em &kot12
+#
+keys:
+  # Substitua pelo output de `age-keygen` (linha "public key: age1...").
+  - &kot12 age1PLACEHOLDER0000000000000000000000000000000000000000000000000
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *kot12

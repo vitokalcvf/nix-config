@@ -1,9 +1,6 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.systemdBoot =
-    { ... }:
-    {
-      boot.loader.systemd-boot.enable = true;
-      boot.loader.efi.canTouchEfiVariables = true;
-    };
+_: {
+  flake.nixosModules.systemdBoot = _: {
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+  };
 }

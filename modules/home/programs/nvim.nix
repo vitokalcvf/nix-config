@@ -1,8 +1,5 @@
-{ ... }:
-{
-  flake.homeModules.nvim =
-    { ... }:
-    {
-      xdg.configFile."nvim".source = ../../dotfiles/nvim;
-    };
+_: {
+  flake.homeModules.nvim = _: {
+    xdg.configFile."nvim".source = ../../dotfiles/nvim;
+  };
 }

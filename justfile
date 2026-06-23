@@ -26,9 +26,9 @@ update:
 check:
     nix flake check
 
-# Formata todos os arquivos .nix do projeto.
+# Formata e faz lint de todo o projeto (treefmt: nixfmt + deadnix + statix).
 fmt:
-    find modules flake.nix -name '*.nix' -print0 | xargs -0 nix fmt --
+    nix fmt
 
 # Remove geracoes antigas e coleta lixo do Nix store.
 gc:

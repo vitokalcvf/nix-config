@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Build completo do host uma vez por semana (segunda 06:00 UTC).
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Rapido: formatacao (nixfmt), lint (deadnix/statix) e avaliacao do flake.
+  # Roda em todo push/PR e da feedback em segundos, sem realizar o build pesado.
+  lint-and-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      # Saude do flake.lock (inputs desatualizados, dirty, etc).
+      - uses: DeterminateSystems/flake-checker-action@main
+
+      # Constroi apenas os checks leves: treefmt (nixfmt + deadnix + statix)
+      # e os hooks de pre-commit. Falha se algo estiver fora de formatacao.
+      - name: Format & lint
+        run: nix build -L .#checks.x86_64-linux.treefmt .#checks.x86_64-linux.pre-commit
+
+      # Garante que cada host *avalia* sem erro (sem realizar o toplevel).
+      - name: Evaluate hosts
+        run: |
+          for host in $(nix eval --json .#nixosConfigurations --apply builtins.attrNames | tr -d '[]"' | tr ',' ' '); do
+            echo "::group::eval $host"
+            nix eval --raw ".#nixosConfigurations.${host}.config.system.build.toplevel.drvPath"
+            echo
+            echo "::endgroup::"
+          done
+
+  # Pesado: build completo do toplevel de cada host. Como o DMS compila do
+  # source (sem cache upstream), roda so no schedule semanal e sob demanda.
+  build:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # O toplevel do NixOS nao cabe no disco padrao do runner.
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          large-packages: false
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build host toplevels
+        run: nix build -L .#checks.x86_64-linux.nixos-kot12

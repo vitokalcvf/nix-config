@@ -1,10 +1,8 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
   flake.nixosModules.home =
     {
       config,
-      pkgs,
-      lib,
       ...
     }:
     let
@@ -24,13 +22,9 @@
 
             home.stateVersion = "25.11";
 
-            home.activation.createProjetos = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-              run mkdir -p "$HOME/projetos"
-            '';
-
-            # Cria por padrao a pasta kot-toolbox na raiz da home do usuario.
-            home.activation.createKotToolbox = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-              run mkdir -p "$HOME/kot-toolbox"
+            # Cria pastas padrao na raiz da home do usuario.
+            home.activation.createDefaultDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+              run mkdir -p "$HOME/projetos" "$HOME/kot-toolbox"
             '';
 
             gtk = {

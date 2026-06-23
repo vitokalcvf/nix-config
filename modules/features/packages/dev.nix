@@ -1,5 +1,4 @@
-{ self, inputs, ... }:
-{
+_: {
   flake.nixosModules.devPackages =
     {
       config,
@@ -25,7 +24,6 @@
           nixfmt
           vscode
           claude-code
-          docker
         ];
       };
     };

@@ -1,11 +1,8 @@
-{ ... }:
-{
-  flake.homeModules.tmux =
-    { ... }:
-    {
-      programs.tmux = {
-        enable = true;
-        extraConfig = builtins.readFile ../../dotfiles/tmux/tmux.conf;
-      };
+_: {
+  flake.homeModules.tmux = _: {
+    programs.tmux = {
+      enable = true;
+      extraConfig = builtins.readFile ../../dotfiles/tmux/tmux.conf;
     };
+  };
 }

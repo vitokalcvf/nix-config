@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
   flake.nixosModules.workProfile =
     { ... }:
@@ -17,4 +17,3 @@
       };
     };
 }
-

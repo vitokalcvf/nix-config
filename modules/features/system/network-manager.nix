@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+_:
 let
   networkModule =
     { config, pkgs, ... }:

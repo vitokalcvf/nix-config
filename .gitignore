@@ -1,2 +1,10 @@
 result
 .codex
+
+# Gerado pelo git-hooks.nix ao entrar no `nix develop`.
+.pre-commit-config.yaml
+
+# Chaves age privadas — NUNCA commitar. Os secrets em secrets/*.yaml ja
+# estao cifrados (sops) e PODEM ser commitados.
+*.age
+keys.txt

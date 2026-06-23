@@ -24,7 +24,7 @@ flake.nix                → ponto de entrada; declara inputs e delega tudo ao i
    │
    └── modules/          → TODO o resto é auto-importado recursivamente
          │
-         ├── flake-parts.nix / formatter.nix   → infraestrutura do flake
+         ├── flake-parts.nix / treefmt.nix / git-hooks.nix / checks.nix → infraestrutura do flake
          │
          ├── features/   → blocos reutilizáveis (cada um = 1 nixosModule)
          ├── home/       → módulos do Home Manager (dotfiles declarativos)
@@ -78,7 +78,7 @@ Assim, **adaptar a uma nova máquina é majoritariamente preencher `my.host`** e
 
 | Arquivo | Função |
 |---|---|
-| `flake.nix` | Ponto de entrada. Declara os **inputs** (nixpkgs unstable, flake-parts, import-tree, home-manager, dms, quickshell, wrapper-modules) e delega a composição ao `import-tree ./modules`. |
+| `flake.nix` | Ponto de entrada. Declara os **inputs** (nixpkgs unstable, flake-parts, import-tree, home-manager, dms, quickshell, wrapper-modules, treefmt-nix, git-hooks, sops-nix) e delega a composição ao `import-tree ./modules`. |
 | `flake.lock` | Versões fixadas (lock) de todos os inputs. Commitado para builds reproduzíveis. |
 | `justfile` | Atalhos de comandos (`just switch`, `just build`, `just update`...). Define `host := "kot12"` como padrão. |
 | `.gitignore` | Ignora `.codex`. |
@@ -88,7 +88,9 @@ Assim, **adaptar a uma nova máquina é majoritariamente preencher `my.host`** e
 | Arquivo | Função |
 |---|---|
 | `flake-parts.nix` | Carrega o `flakeModules.modules`, declara a opção `flake.homeModules` e define os `systems` suportados (x86_64/aarch64 linux e darwin). |
-| `formatter.nix` | Define `nixfmt` como formatador padrão (`nix fmt`). |
+| `treefmt.nix` | Configura o `nix fmt` via **treefmt-nix** agregando `nixfmt` + `deadnix` + `statix`. |
+| `git-hooks.nix` | Hooks de **pre-commit** (roda o treefmt no commit) via **git-hooks.nix**; instalados com `nix develop`. Tambem vira check do flake. |
+| `checks.nix` | Expoe cada `nixosConfiguration` como check, fazendo `nix flake check` **construir** o sistema (nao so avaliar). |
 
 ### `modules/profiles/` — conjuntos de features
 
@@ -121,6 +123,7 @@ Cada arquivo expõe um `flake.nixosModules.<nome>`. Os de pacotes definem uma op
 | `locale.nix` | `locale` | Timezone, locale padrão/extra (en_US + pt_BR) e layout de teclado (console + XKB). |
 | `network-manager.nix` | `networkManager` | Hostname, NetworkManager (com plugin OpenVPN) e firewall. |
 | `auto-upgrade.nix` | `autoUpgrade` | `system.autoUpgrade` semanal a partir do flake local; marca o repo como `safe.directory` para o serviço root conseguir ler o git no home. Não reinicia sozinho. |
+| `secrets.nix` | `secrets` | **sops-nix** (gerenciamento de secrets). Desligado por padrao (`my.secrets.enable = false`); quando ligado, usa a chave age em `/var/lib/sops-nix/keys.txt`. Veja [Secrets](#secrets). |
 | `boot/systemd-boot.nix` | `systemdBoot` | Bootloader systemd-boot com acesso a variáveis EFI. |
 
 **`features/packages/`** — grupos de pacotes (todos com toggle `my.packages.*.enable`):
@@ -285,6 +288,55 @@ sudo nixos-install --flake ~/nix-config#<novo-host>
 
 ---
 
+## Secrets
+
+Secrets sao gerenciados com **sops-nix** e ficam **desligados por padrao**
+(`my.secrets.enable = false`) — o repo nao guarda nenhum secret ainda. O modulo
+`features/system/secrets.nix` ja deixa tudo plugado; para ligar:
+
+```bash
+# 1. Gerar a chave age desta maquina (uma vez)
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt        # imprime "public key: age1..."
+
+# 2. Colar a public key no .sops.yaml, no lugar do placeholder &kot12
+
+# 3. Disponibilizar a chave para o root (sops-nix le no boot)
+sudo install -Dm600 ~/.config/sops/age/keys.txt /var/lib/sops-nix/keys.txt
+
+# 4. Criar/editar o arquivo de secrets cifrado
+sops secrets/secrets.yaml                          # abre no editor, salva cifrado
+
+# 5. Ligar no host (modules/hosts/<host>/configuration.nix):
+#      my.secrets.enable = true;
+#    e referenciar os secrets (ex.: sops.secrets.<nome>) onde precisar.
+```
+
+Os arquivos em `secrets/*.yaml` ficam **cifrados** e podem ser commitados; a
+chave privada (`keys.txt`/`*.age`) e ignorada pelo `.gitignore` e **nunca**
+deve ser commitada. `age-keygen` e `sops` vem no `nix develop` (devShell).
+
+> Nada sensivel "de verdade" mora no repo hoje (hostnames internos e um hash de
+> senha inicial). Use isto ao adicionar credenciais reais (VPN, tokens, etc.).
+
+---
+
+## CI
+
+`.github/workflows/ci.yml` roda no GitHub Actions:
+
+- **`lint-and-eval`** (todo push/PR): checa saude do `flake.lock`, roda o treefmt
+  (nixfmt + deadnix + statix) e os hooks de pre-commit, e **avalia** cada host.
+  Rapido, sem build pesado.
+- **`build`** (semanal + `workflow_dispatch`): constroi o `toplevel` completo de
+  cada host. Roda separado porque o DMS compila do source (sem cache upstream) e
+  e pesado para um runner gratuito.
+
+Localmente o equivalente e `just check` (que agora **constroi** os hosts via
+`modules/checks.nix`) e `just fmt`.
+
+---
+
 ## Comandos do dia a dia
 
 Todos via `just` (veja `just --list`). `host` default = `kot12`.
@@ -295,8 +347,8 @@ Todos via `just` (veja `just --list`). `host` default = `kot12`.
 | `just test [host]` | Aplica temporariamente, **sem** virar default no boot. |
 | `just build [host]` | Só constrói (valida mudanças sem aplicar). |
 | `just update` | Atualiza todos os inputs do flake (`nix flake update`) — reescreve o `flake.lock`. |
-| `just check` | `nix flake check` (avaliação + checks). |
-| `just fmt` | Formata todos os `.nix` com nixfmt. |
+| `just check` | `nix flake check` — avalia o flake **e constrói** cada host (via `checks.nix`). |
+| `just fmt` | Formata e faz lint de todo o projeto (treefmt: nixfmt + deadnix + statix). |
 | `just gc` | Remove gerações antigas e coleta lixo do store (sudo). |
 
 > **Atualizações automáticas:** o `autoUpgrade` reconstrói semanalmente a partir de `~/nix-config#<host>`, puxando o nixpkgs unstable mais recente sem reescrever o lock. Para fixar versões, rode `just update` e commite o `flake.lock`.
