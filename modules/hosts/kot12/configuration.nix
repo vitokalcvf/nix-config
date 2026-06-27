@@ -8,7 +8,7 @@
       imports = [
         self.nixosModules.kot12Hardware
         self.nixosModules.workProfile
-        self.nixosModules.systemdBoot
+        self.nixosModules.grub
       ];
 
       my.host = {
