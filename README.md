@@ -31,10 +31,12 @@ flake.nix                → ponto de entrada; declara inputs e delega tudo ao i
          ├── dotfiles/   → arquivos de config "crus" (nvim, tmux, kitty...)
          │
          ├── profiles/   → agrupam features em conjuntos coerentes
-         │      base → niri-desktop → work        (cada um importa o anterior)
+         │      base → niri-desktop → work        (work/personal importam niri-desktop)
+         │                         ↘ personal
          │
          └── hosts/      → máquinas concretas; escolhem um profile + hardware
-                kot12/   → o laptop atual
+                kot12/   → laptop de trabalho (workProfile)
+                home/    → máquina pessoal de casa (personalProfile)
 ```
 
 A regra mental é: **features** definem *o que existe*, **profiles** decidem *o que ligar junto*, e **hosts** definem *a máquina real* (hardware, hostname, usuário).
@@ -100,15 +102,24 @@ Os profiles formam uma cadeia, cada um importando o anterior:
 |---|---|---|
 | `base.nix` | `baseProfile` | Fundação de qualquer host: opções de host, usuário, locale, NetworkManager, auto-upgrade. Liga `nix-command`/`flakes` e `allowUnfree`. |
 | `niri-desktop.nix` | `niriDesktopProfile` | Importa `base` + ambiente gráfico completo: Niri, DMS, Home Manager, áudio (PipeWire + fix Fuxi-H3), base de desktop e os grupos de pacotes core/dev/desktopApps/work/notes. |
-| `work.nix` | `workProfile` | Importa `niri-desktop` + Docker, e **habilita** os grupos de pacotes (`my.packages.*.enable = true`). É o profile usado pelo `kot12`. |
+| `work.nix` | `workProfile` | Importa `niri-desktop` + Docker, e **habilita** os grupos de pacotes incluindo `work` (`my.packages.*.enable = true`). É o profile usado pelo `kot12`. |
+| `personal.nix` | `personalProfile` | Importa `niri-desktop` + Docker e habilita `core`/`dev`/`desktopApps`/`notes`. **Não liga `work`** — ambiente pessoal de casa, sem nada de trabalho. Usado pelo `home`. |
 
-### `modules/hosts/kot12/` — a máquina
+### `modules/hosts/kot12/` — o laptop de trabalho
 
 | Arquivo | Módulo | Função |
 |---|---|---|
 | `default.nix` | — | Declara `flake.nixosConfigurations."kot12"`: junta o módulo de configuração do host com o módulo NixOS do Home Manager. É o que `nixos-rebuild --flake .#kot12` monta. |
 | `configuration.nix` | `kot12Configuration` | Importa hardware + `workProfile` + boot. Preenche `my.host` (nome, usuário `vitor`, teclado br-abnt2/br), define senha inicial e `system.stateVersion`. |
 | `hardware.nix` | `kot12Hardware` | Gerado pelo instalador + ajustes: módulos de kernel, UUIDs de partições (`/`, `/boot`, swap), microcode AMD e o **quirk do teclado i8042 no resume** (teclado interno morre após suspender). |
+
+### `modules/hosts/home/` — a máquina pessoal de casa
+
+| Arquivo | Módulo | Função |
+|---|---|---|
+| `default.nix` | — | Declara `flake.nixosConfigurations."home"`: junta a configuração do host com o módulo NixOS do Home Manager. Monta com `nixos-rebuild --flake .#home`. |
+| `configuration.nix` | `homeConfiguration` | Importa hardware + `personalProfile` + GRUB. Preenche `my.host` (nome `home`, usuário `vitor`, teclado br-abnt2/br), define senha inicial e `system.stateVersion`. |
+| `hardware.nix` | `homeHardware` | **Template** com placeholders e TODOs — UUIDs, módulos de kernel, swap e microcode precisam ser preenchidos com a saída de `nixos-generate-config` na máquina real antes do primeiro build. |
 
 ### `modules/features/` — blocos reutilizáveis
 
