@@ -18,6 +18,12 @@ _: {
         IdentitiesOnly = true;
       };
 
+      settings."45.56.113.190" = {
+        User = "admin";
+        IdentityFile = "~/.ssh/id_ed25519";
+        IdentitiesOnly = true;
+      };
+
       settings."nixos.intra.kot.com.br" = {
         User = "admin";
         IdentityFile = "~/.ssh/id_ed25519";
